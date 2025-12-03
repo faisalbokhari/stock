@@ -36,12 +36,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-
+"""
 @router.post("/register")
 def register(
     user_data: UserCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
 ):
     if current_user.role != UserRole.admin:
         raise HTTPException(status_code=403, detail="Only admins can register new users")
@@ -60,5 +59,27 @@ def register(
     db.commit()
     db.refresh(new_user)
     return {"message": "User registered successfully", "user_id": new_user.id}
+
+"""
+@router.post("/register")
+def register(
+    user_data: UserCreate,
+    db: Session = Depends(get_db),
+):
+    existing_user = db.query(User).filter(User.username == user_data.username).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already registered")
+
+    new_user = User(
+        username=user_data.username,
+        email=user_data.email,
+        hashed_password=get_password_hash(user_data.password),
+        role=user_data.role  # optional: only if you allow setting role
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "User registered successfully", "user_id": new_user.id}
+
 
 
