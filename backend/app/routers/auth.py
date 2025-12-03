@@ -4,12 +4,13 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from app.core.security import create_access_token, verify_password
 from app.core.config import ACCESS_TOKEN_EXPIRE_MINUTES
+from app.core.security import get_password_hash
 
 router = APIRouter(prefix="/user", tags=["auth"])
 
 FAKE_USER = {
     "username": "Admin",
-    "hashed_password": "$2b$12$Tw0/m2.oEjnYewn0MZXEd.qIC1WIO.CM6wvuTNaUG64m1cGX2g2Gy"
+    "hashed_password": get_password_hash("P@ssw0rd") #"$2b$12$Tw0/m2.oEjnYewn0MZXEd.qIC1WIO.CM6wvuTNaUG64m1cGX2g2Gy"
 }
 
 @router.post("/login")
