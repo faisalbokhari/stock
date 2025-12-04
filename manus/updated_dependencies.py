@@ -1,4 +1,3 @@
-
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -9,6 +8,7 @@ from app.db.database import SessionLocal
 from app.models.user import User, UserRole
 from app.schemas.token import TokenData
 
+# ... (Existing get_db and get_current_user functions) ...
 
 # The get_db function remains the same:
 def get_db():
@@ -19,7 +19,7 @@ def get_db():
         db.close()
 
 # The get_current_user function remains the same:
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
 
 credentials_exception = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,

@@ -4,7 +4,6 @@ from app.routers import auth, users
 from app.db.database import Base, engine
 from app.models import user  # import your models
 from app.db.database import Base, engine
-from app.models import user  # import your models
 
 app = FastAPI()
 
