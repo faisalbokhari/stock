@@ -16,7 +16,7 @@ app.include_router(users.router)
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to FastAPI JWT App"}
+    return {"message": "Welcome to Stock Trading App V1"}
 
 
 # It must be on bottom
